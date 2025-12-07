@@ -33,6 +33,12 @@ from cortex.branding import (
     show_banner,
     VERSION
 )
+from cortex.validators import (
+    validate_api_key,
+    validate_install_request,
+    validate_installation_id,
+    ValidationError
+)
 
 
 class CortexCLI:
@@ -48,11 +54,12 @@ class CortexCLI:
             console.print(f"[dim][DEBUG] {message}[/dim]")
 
     def _get_api_key(self) -> Optional[str]:
-        api_key = os.environ.get('OPENAI_API_KEY') or os.environ.get('ANTHROPIC_API_KEY')
-        if not api_key:
-            self._print_error("API key not found. Set OPENAI_API_KEY or ANTHROPIC_API_KEY environment variable.")
+        is_valid, provider, error = validate_api_key()
+        if not is_valid:
+            self._print_error(error)
             cx_print("Run [bold]cortex wizard[/bold] to configure your API key.", "info")
             return None
+        api_key = os.environ.get('ANTHROPIC_API_KEY') or os.environ.get('OPENAI_API_KEY')
         return api_key
 
     def _get_provider(self) -> str:
@@ -90,6 +97,12 @@ class CortexCLI:
         sys.stdout.flush()
     
     def install(self, software: str, execute: bool = False, dry_run: bool = False):
+        # Validate input first
+        is_valid, error = validate_install_request(software)
+        if not is_valid:
+            self._print_error(error)
+            return 1
+
         api_key = self._get_api_key()
         if not api_key:
             return 1
