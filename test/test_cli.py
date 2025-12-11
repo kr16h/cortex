@@ -13,15 +13,15 @@ class TestCortexCLI(unittest.TestCase):
     def setUp(self):
         self.cli = CortexCLI()
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     def test_get_api_key_openai(self):
         api_key = self.cli._get_api_key()
-        self.assertEqual(api_key, 'test-key')
-    
-    @patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'test-claude-key', 'OPENAI_API_KEY': ''}, clear=True)
+        self.assertEqual(api_key, 'sk-test-openai-key-123')
+
+    @patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'sk-ant-test-claude-key-123', 'OPENAI_API_KEY': ''}, clear=True)
     def test_get_api_key_claude(self):
         api_key = self.cli._get_api_key()
-        self.assertEqual(api_key, 'test-claude-key')
+        self.assertEqual(api_key, 'sk-ant-test-claude-key-123')
     
     @patch.dict(os.environ, {}, clear=True)
     @patch('sys.stderr')
@@ -29,12 +29,12 @@ class TestCortexCLI(unittest.TestCase):
         api_key = self.cli._get_api_key()
         self.assertIsNone(api_key)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     def test_get_provider_openai(self):
         provider = self.cli._get_provider()
         self.assertEqual(provider, 'openai')
-    
-    @patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'test-key'}, clear=True)
+
+    @patch.dict(os.environ, {'ANTHROPIC_API_KEY': 'sk-ant-test-claude-key-123'}, clear=True)
     def test_get_provider_claude(self):
         provider = self.cli._get_provider()
         self.assertEqual(provider, 'claude')
@@ -59,7 +59,7 @@ class TestCortexCLI(unittest.TestCase):
         result = self.cli.install("docker")
         self.assertEqual(result, 1)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_dry_run(self, mock_interpreter_class):
         mock_interpreter = Mock()
@@ -71,7 +71,7 @@ class TestCortexCLI(unittest.TestCase):
         self.assertEqual(result, 0)
         mock_interpreter.parse.assert_called_once_with("install docker")
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_no_execute(self, mock_interpreter_class):
         mock_interpreter = Mock()
@@ -83,7 +83,7 @@ class TestCortexCLI(unittest.TestCase):
         self.assertEqual(result, 0)
         mock_interpreter.parse.assert_called_once()
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     @patch('cortex.cli.InstallationCoordinator')
     def test_install_with_execute_success(self, mock_coordinator_class, mock_interpreter_class):
@@ -103,7 +103,7 @@ class TestCortexCLI(unittest.TestCase):
         self.assertEqual(result, 0)
         mock_coordinator.execute.assert_called_once()
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     @patch('cortex.cli.InstallationCoordinator')
     def test_install_with_execute_failure(self, mock_coordinator_class, mock_interpreter_class):
@@ -123,7 +123,7 @@ class TestCortexCLI(unittest.TestCase):
         
         self.assertEqual(result, 1)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_no_commands_generated(self, mock_interpreter_class):
         mock_interpreter = Mock()
@@ -134,7 +134,7 @@ class TestCortexCLI(unittest.TestCase):
         
         self.assertEqual(result, 1)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_value_error(self, mock_interpreter_class):
         mock_interpreter = Mock()
@@ -145,7 +145,7 @@ class TestCortexCLI(unittest.TestCase):
         
         self.assertEqual(result, 1)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_runtime_error(self, mock_interpreter_class):
         mock_interpreter = Mock()
@@ -156,7 +156,7 @@ class TestCortexCLI(unittest.TestCase):
         
         self.assertEqual(result, 1)
     
-    @patch.dict(os.environ, {'OPENAI_API_KEY': 'test-key'})
+    @patch.dict(os.environ, {'OPENAI_API_KEY': 'sk-test-openai-key-123'})
     @patch('cortex.cli.CommandInterpreter')
     def test_install_unexpected_error(self, mock_interpreter_class):
         mock_interpreter = Mock()
