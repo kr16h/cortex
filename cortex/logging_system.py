@@ -89,7 +89,7 @@ class ColoredConsoleFormatter(logging.Formatter):
 class CortexLogger:
     """
     Comprehensive Logging System for Cortex Linux
-    
+
     Features:
     - Multiple log levels (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     - Multiple outputs (console, file, structured JSON)
@@ -110,7 +110,7 @@ class CortexLogger:
     ):
         """
         Initialize logging system
-        
+
         Args:
             name: Logger name
             log_dir: Directory for log files
@@ -304,13 +304,13 @@ class CortexLogger:
     ) -> list[dict]:
         """
         Search through log files
-        
+
         Args:
             pattern: Text pattern to search for
             level: Filter by log level
             since: Only return logs after this time
             limit: Maximum number of results
-            
+
         Returns:
             List of matching log entries
         """
@@ -362,13 +362,13 @@ class CortexLogger:
     ) -> str:
         """
         Export logs to file
-        
+
         Args:
             output_path: Output file path
             format: Export format (json, csv, txt)
             since: Only export logs after this time
             level: Filter by log level
-            
+
         Returns:
             Path to exported file
         """
@@ -399,10 +399,10 @@ class CortexLogger:
     def clear_old_logs(self, days: int = 30) -> int:
         """
         Clear log files older than specified days
-        
+
         Args:
             days: Delete logs older than this many days
-            
+
         Returns:
             Number of files deleted
         """
@@ -427,10 +427,10 @@ class CortexLogger:
     def get_error_summary(self, hours: int = 24) -> dict[str, Any]:
         """
         Get summary of errors in recent time period
-        
+
         Args:
             hours: Look back this many hours
-            
+
         Returns:
             Error summary statistics
         """

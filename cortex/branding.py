@@ -54,7 +54,7 @@ def cx_print(message: str, status: str = "info"):
     """
     Print a message with the CX badge prefix.
     Like Claude's orange icon, but for Cortex.
-    
+
     Args:
         message: The message to display
         status: One of "info", "success", "warning", "error", "thinking"
@@ -76,7 +76,7 @@ def cx_print(message: str, status: str = "info"):
 def cx_step(step_num: int, total: int, message: str):
     """
     Print a numbered step with the CX badge.
-    
+
     Example: CX │ [1/4] Updating package lists...
     """
     badge = "[bold white on dark_cyan] CX [/bold white on dark_cyan]"

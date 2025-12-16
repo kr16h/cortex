@@ -41,8 +41,8 @@ class TestContextMemory(unittest.TestCase):
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT name FROM sqlite_master 
-            WHERE type='table' 
+            SELECT name FROM sqlite_master
+            WHERE type='table'
             ORDER BY name
         """)
         tables = [row[0] for row in cursor.fetchall()]
@@ -130,7 +130,7 @@ class TestContextMemory(unittest.TestCase):
     def test_generate_suggestions_optimization(self):
         """Test generation of optimization suggestions"""
         # Record repeated package installations
-        for i in range(4):
+        for _i in range(4):
             entry = MemoryEntry(
                 category="package",
                 context="Development setup",
@@ -205,7 +205,7 @@ class TestContextMemory(unittest.TestCase):
     def test_dismiss_suggestion(self):
         """Test dismissing suggestions"""
         # Record entries to generate suggestions
-        for i in range(4):
+        for _i in range(4):
             entry = MemoryEntry(
                 category="package",
                 context="Test",
@@ -359,7 +359,7 @@ class TestContextMemory(unittest.TestCase):
     def test_suggestion_deduplication(self):
         """Test that duplicate suggestions aren't created"""
         # Record same scenario multiple times
-        for i in range(5):
+        for _i in range(5):
             entry = MemoryEntry(
                 category="package",
                 context="Test",
@@ -427,7 +427,7 @@ class TestIntegration(unittest.TestCase):
     def test_complete_workflow(self):
         """Test complete workflow: record -> analyze -> suggest -> dismiss"""
         # 1. Record multiple interactions
-        for i in range(5):
+        for _i in range(5):
             entry = MemoryEntry(
                 category="package",
                 context="Setting up development environment",

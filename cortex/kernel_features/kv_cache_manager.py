@@ -5,6 +5,8 @@ Cortex KV-Cache Manager
 User-space KV-cache management for LLM inference optimization.
 """
 
+import builtins
+import contextlib
 import json
 import sqlite3
 from dataclasses import asdict, dataclass
@@ -44,7 +46,7 @@ class CacheDatabase:
         with sqlite3.connect(CORTEX_DB) as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS pools (name TEXT PRIMARY KEY, config TEXT, shm_name TEXT);
-                CREATE TABLE IF NOT EXISTS entries (seq_id INTEGER, pool TEXT, created REAL, accessed REAL, 
+                CREATE TABLE IF NOT EXISTS entries (seq_id INTEGER, pool TEXT, created REAL, accessed REAL,
                     count INTEGER, tokens INTEGER, size INTEGER, offset INTEGER, PRIMARY KEY(seq_id, pool));
                 CREATE TABLE IF NOT EXISTS stats (pool TEXT PRIMARY KEY, hits INTEGER DEFAULT 0, misses INTEGER DEFAULT 0);
             """)
@@ -84,10 +86,8 @@ class SharedMemoryPool:
 
     def destroy(self):
         self.shm.close()
-        try:
+        with contextlib.suppress(builtins.BaseException):
             self.shm.unlink()
-        except:
-            pass
 
 
 class KVCacheManager:

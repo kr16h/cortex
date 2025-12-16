@@ -126,7 +126,7 @@ class Transaction:
 class TransactionHistory:
     """
     Manages transaction history with SQLite storage.
-    
+
     Provides:
     - Recording of all package operations
     - State snapshots before/after operations
@@ -162,12 +162,12 @@ class TransactionHistory:
             """)
 
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_timestamp 
+                CREATE INDEX IF NOT EXISTS idx_timestamp
                 ON transactions(timestamp DESC)
             """)
 
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_status 
+                CREATE INDEX IF NOT EXISTS idx_status
                 ON transactions(status)
             """)
 
@@ -187,12 +187,12 @@ class TransactionHistory:
     ) -> Transaction:
         """
         Begin a new transaction and capture before state.
-        
+
         Args:
             transaction_type: Type of operation
             packages: List of package names involved
             command: The command being executed
-        
+
         Returns:
             Transaction object for tracking
         """
@@ -229,7 +229,7 @@ class TransactionHistory:
     ):
         """
         Complete a transaction and capture after state.
-        
+
         Args:
             transaction: The transaction to complete
             success: Whether the operation succeeded
@@ -515,7 +515,7 @@ class TransactionHistory:
 class UndoManager:
     """
     Manages undo operations for package transactions.
-    
+
     Provides safe rollback with confirmation and progress tracking.
     """
 
@@ -525,7 +525,7 @@ class UndoManager:
     def can_undo(self, transaction_id: str) -> tuple[bool, str]:
         """
         Check if a transaction can be undone.
-        
+
         Returns:
             Tuple of (can_undo, reason)
         """
@@ -549,7 +549,7 @@ class UndoManager:
     def preview_undo(self, transaction_id: str) -> dict[str, Any]:
         """
         Preview what an undo operation would do.
-        
+
         Returns:
             Dict with rollback details
         """
@@ -582,12 +582,12 @@ class UndoManager:
     ) -> dict[str, Any]:
         """
         Undo a transaction.
-        
+
         Args:
             transaction_id: ID of transaction to undo
             dry_run: If True, only show what would be done
             force: If True, ignore safety warnings
-        
+
         Returns:
             Dict with result of undo operation
         """

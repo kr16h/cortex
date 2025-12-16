@@ -21,7 +21,7 @@ class PackageManagerType(Enum):
 class PackageManager:
     """
     Intelligent wrapper that translates natural language into package manager commands.
-    
+
     Example:
         pm = PackageManager()
         commands = pm.parse("install python with data science libraries")
@@ -31,7 +31,7 @@ class PackageManager:
     def __init__(self, pm_type: PackageManagerType | None = None):
         """
         Initialize the package manager.
-        
+
         Args:
             pm_type: Package manager type (auto-detected if None)
         """
@@ -355,18 +355,18 @@ class PackageManager:
                     if software in self.package_mappings:
                         matched_packages.update(self.package_mappings[software].get(pm_key, []))
 
-        return sorted(list(matched_packages))
+        return sorted(matched_packages)
 
     def parse(self, request: str) -> list[str]:
         """
         Parse natural language request and return package manager commands.
-        
+
         Args:
             request: Natural language request (e.g., "install python with data science libraries")
-        
+
         Returns:
             List of package manager commands
-        
+
         Raises:
             ValueError: If request cannot be parsed or no packages found
         """
@@ -406,10 +406,10 @@ class PackageManager:
     def get_package_info(self, package_name: str) -> dict[str, str] | None:
         """
         Get information about a specific package.
-        
+
         Args:
             package_name: Name of the package
-        
+
         Returns:
             Dictionary with package information or None if not found
         """

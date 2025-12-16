@@ -288,10 +288,10 @@ class ErrorParser:
     def parse_error(self, error_message: str) -> ErrorAnalysis:
         """
         Parse error message and provide analysis
-        
+
         Args:
             error_message: Raw error output from installation
-            
+
         Returns:
             ErrorAnalysis with categorization and fix suggestions
         """

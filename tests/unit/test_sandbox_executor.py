@@ -4,6 +4,8 @@ Unit tests for sandboxed command executor.
 Tests security features, validation, and execution.
 """
 
+import builtins
+import contextlib
 import os
 import shutil
 import subprocess
@@ -173,15 +175,11 @@ class TestSandboxExecutor(unittest.TestCase):
     def test_audit_logging(self):
         """Test audit log functionality."""
         # Execute some commands
-        try:
+        with contextlib.suppress(builtins.BaseException):
             self.executor.execute('echo "test"', dry_run=True)
-        except:
-            pass
 
-        try:
+        with contextlib.suppress(builtins.BaseException):
             self.executor.execute('rm -rf /', dry_run=False)
-        except:
-            pass
 
         audit_log = self.executor.get_audit_log()
         self.assertGreater(len(audit_log), 0)
@@ -274,15 +272,11 @@ class TestSandboxExecutor(unittest.TestCase):
     def test_comprehensive_logging(self):
         """Test that all events are logged."""
         # Execute various commands
-        try:
+        with contextlib.suppress(builtins.BaseException):
             self.executor.execute('echo test', dry_run=True)
-        except:
-            pass
 
-        try:
+        with contextlib.suppress(builtins.BaseException):
             self.executor.execute('invalid-command', dry_run=False)
-        except:
-            pass
 
         # Check log file exists
         self.assertTrue(os.path.exists(self.log_file))

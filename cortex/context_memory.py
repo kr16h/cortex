@@ -67,7 +67,7 @@ class Suggestion:
 class ContextMemory:
     """
     AI Context Memory System for Cortex Linux
-    
+
     Features:
     - Persistent storage of user interactions
     - Pattern recognition and learning
@@ -155,10 +155,10 @@ class ContextMemory:
     def record_interaction(self, entry: MemoryEntry) -> int:
         """
         Record a user interaction in memory
-        
+
         Args:
             entry: MemoryEntry object containing interaction details
-            
+
         Returns:
             ID of the inserted memory entry
         """
@@ -166,7 +166,7 @@ class ContextMemory:
         cursor = conn.cursor()
 
         cursor.execute("""
-            INSERT INTO memory_entries 
+            INSERT INTO memory_entries
             (timestamp, category, context, action, result, success, confidence, frequency, metadata)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
@@ -193,11 +193,11 @@ class ContextMemory:
     def get_similar_interactions(self, context: str, limit: int = 10) -> list[MemoryEntry]:
         """
         Find similar past interactions based on context
-        
+
         Args:
             context: Context string to match against
             limit: Maximum number of results
-            
+
         Returns:
             List of similar MemoryEntry objects
         """
@@ -249,7 +249,7 @@ class ContextMemory:
     def _analyze_patterns(self, entry: MemoryEntry):
         """
         Analyze entry for patterns and update pattern database
-        
+
         This runs after each new entry to detect recurring patterns
         """
         conn = sqlite3.connect(self.db_path)
@@ -259,7 +259,7 @@ class ContextMemory:
         cursor.execute("""
             SELECT action, COUNT(*) as count
             FROM memory_entries
-            WHERE category = ? 
+            WHERE category = ?
             AND timestamp > datetime('now', '-30 days')
             GROUP BY action
             HAVING count >= 3
@@ -301,11 +301,11 @@ class ContextMemory:
     def get_patterns(self, pattern_type: str | None = None, min_confidence: float = 0.5) -> list[Pattern]:
         """
         Retrieve learned patterns
-        
+
         Args:
             pattern_type: Filter by pattern type
             min_confidence: Minimum confidence threshold
-            
+
         Returns:
             List of Pattern objects
         """
@@ -346,10 +346,10 @@ class ContextMemory:
     def generate_suggestions(self, context: str = None) -> list[Suggestion]:
         """
         Generate intelligent suggestions based on memory and patterns
-        
+
         Args:
             context: Optional context to focus suggestions
-            
+
         Returns:
             List of Suggestion objects
         """
@@ -575,15 +575,15 @@ class ContextMemory:
 
         # Entries by category
         cursor.execute("""
-            SELECT category, COUNT(*) 
-            FROM memory_entries 
+            SELECT category, COUNT(*)
+            FROM memory_entries
             GROUP BY category
         """)
         stats['by_category'] = dict(cursor.fetchall())
 
         # Success rate
         cursor.execute("""
-            SELECT 
+            SELECT
                 SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as success_rate
             FROM memory_entries
         """)

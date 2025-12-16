@@ -249,7 +249,7 @@ class InstallationVerifier:
     ) -> VerificationResult:
         """
         Verify package installation
-        
+
         Args:
             package_name: Name of package to verify
             expected_version: Optional version to check against

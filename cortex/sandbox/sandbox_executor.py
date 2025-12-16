@@ -77,7 +77,7 @@ class ExecutionResult:
 class SandboxExecutor:
     """
     Sandboxed command executor with security controls.
-    
+
     Features:
     - Firejail sandboxing
     - Command whitelisting
@@ -165,7 +165,7 @@ class SandboxExecutor:
                  enable_rollback: bool = True):
         """
         Initialize sandbox executor.
-        
+
         Args:
             firejail_path: Path to firejail binary (auto-detected if None)
             log_file: Path to audit log file
@@ -210,7 +210,7 @@ class SandboxExecutor:
     def is_firejail_available(self) -> bool:
         """
         Check if Firejail is available on the system.
-        
+
         Returns:
             True if Firejail is available, False otherwise
         """
@@ -254,10 +254,10 @@ class SandboxExecutor:
     def validate_command(self, command: str) -> tuple[bool, str | None]:
         """
         Validate command for security.
-        
+
         Args:
             command: Command string to validate
-            
+
         Returns:
             Tuple of (is_valid, violation_reason)
         """
@@ -302,10 +302,10 @@ class SandboxExecutor:
     def _validate_paths(self, command: str) -> str | None:
         """
         Validate file paths in command to prevent path traversal attacks.
-        
+
         Args:
             command: Command string
-            
+
         Returns:
             Violation reason if found, None otherwise
         """
@@ -366,10 +366,10 @@ class SandboxExecutor:
     def _create_firejail_command(self, command: str) -> list[str]:
         """
         Create firejail command with resource limits.
-        
+
         Args:
             command: Command to execute
-            
+
         Returns:
             List of command parts for subprocess
         """
@@ -402,10 +402,10 @@ class SandboxExecutor:
     def _create_snapshot(self, session_id: str) -> dict[str, Any]:
         """
         Create snapshot of current state for rollback.
-        
+
         Args:
             session_id: Session identifier
-            
+
         Returns:
             Snapshot dictionary
         """
@@ -437,10 +437,10 @@ class SandboxExecutor:
     def _rollback(self, session_id: str) -> bool:
         """
         Rollback changes from a session.
-        
+
         Args:
             session_id: Session identifier
-            
+
         Returns:
             True if rollback successful
         """
@@ -482,12 +482,12 @@ class SandboxExecutor:
                 enable_rollback: bool | None = None) -> ExecutionResult:
         """
         Execute command in sandbox.
-        
+
         Args:
             command: Command to execute
             dry_run: If True, only show what would execute
             enable_rollback: Override default rollback setting
-            
+
         Returns:
             ExecutionResult object
         """
@@ -618,10 +618,10 @@ class SandboxExecutor:
     def get_audit_log(self, limit: int | None = None) -> list[dict[str, Any]]:
         """
         Get audit log entries.
-        
+
         Args:
             limit: Maximum number of entries to return
-            
+
         Returns:
             List of audit log entries
         """

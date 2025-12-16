@@ -18,7 +18,7 @@ from sandbox_executor import SandboxExecutor
 async def demo_package_installation(tracker: ProgressTracker, package_name: str = "curl"):
     """
     Demo installation of a package with progress tracking.
-    
+
     Args:
         tracker: ProgressTracker instance
         package_name: Package to install (default: curl, small and safe)

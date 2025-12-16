@@ -24,7 +24,7 @@ class HardwareProfiler:
     def detect_cpu(self) -> dict[str, Any]:
         """
         Detect CPU information: model, cores, architecture.
-        
+
         Returns:
             dict: CPU information with model, cores, and architecture
         """
@@ -106,7 +106,7 @@ class HardwareProfiler:
     def detect_gpu(self) -> list[dict[str, Any]]:
         """
         Detect GPU information: vendor, model, VRAM, CUDA version.
-        
+
         Returns:
             list: List of GPU information dictionaries
         """
@@ -238,7 +238,7 @@ class HardwareProfiler:
     def detect_ram(self) -> int:
         """
         Detect total RAM in MB.
-        
+
         Returns:
             int: Total RAM in MB
         """
@@ -264,7 +264,7 @@ class HardwareProfiler:
     def detect_storage(self) -> list[dict[str, Any]]:
         """
         Detect storage devices: type and size.
-        
+
         Returns:
             list: List of storage device information
         """
@@ -338,7 +338,7 @@ class HardwareProfiler:
     def detect_network(self) -> dict[str, Any]:
         """
         Detect network capabilities.
-        
+
         Returns:
             dict: Network information including interfaces and speeds
         """
@@ -398,7 +398,7 @@ class HardwareProfiler:
     def profile(self) -> dict[str, Any]:
         """
         Run complete hardware profiling.
-        
+
         Returns:
             dict: Complete hardware profile in JSON format
         """
@@ -427,10 +427,10 @@ class HardwareProfiler:
     def to_json(self, indent: int = 2) -> str:
         """
         Convert hardware profile to JSON string.
-        
+
         Args:
             indent: JSON indentation level
-            
+
         Returns:
             str: JSON string representation
         """

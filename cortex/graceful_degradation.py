@@ -83,7 +83,7 @@ class ResponseCache:
                 )
             """)
             conn.execute("""
-                CREATE INDEX IF NOT EXISTS idx_last_used 
+                CREATE INDEX IF NOT EXISTS idx_last_used
                 ON response_cache(last_used)
             """)
             conn.commit()
@@ -108,7 +108,7 @@ class ResponseCache:
             if row:
                 # Update hit count and last_used
                 conn.execute("""
-                    UPDATE response_cache 
+                    UPDATE response_cache
                     SET hit_count = hit_count + 1, last_used = CURRENT_TIMESTAMP
                     WHERE query_hash = ?
                 """, (query_hash,))
@@ -131,7 +131,7 @@ class ResponseCache:
 
         with sqlite3.connect(self.db_path) as conn:
             conn.execute("""
-                INSERT OR REPLACE INTO response_cache 
+                INSERT OR REPLACE INTO response_cache
                 (query_hash, query, response, created_at, hit_count, last_used)
                 VALUES (?, ?, ?, CURRENT_TIMESTAMP, 0, NULL)
             """, (query_hash, query, response))
@@ -302,7 +302,7 @@ class PatternMatcher:
 class GracefulDegradation:
     """
     Main class for handling graceful degradation when API is unavailable.
-    
+
     Provides multiple fallback strategies:
     1. Response caching - Use previously cached LLM responses
     2. Pattern matching - Local regex-based command generation
@@ -333,7 +333,7 @@ class GracefulDegradation:
     def check_api_health(self, api_check_fn: Callable | None = None) -> HealthCheckResult:
         """
         Check if the LLM API is available.
-        
+
         Args:
             api_check_fn: Optional function that returns True if API is healthy
         """
@@ -394,11 +394,11 @@ class GracefulDegradation:
     ) -> dict[str, Any]:
         """
         Process a query with graceful degradation.
-        
+
         Args:
             query: The user's natural language query
             llm_fn: Function to call the LLM API (optional)
-        
+
         Returns:
             Dict with response, source, and confidence
         """

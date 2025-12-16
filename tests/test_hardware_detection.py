@@ -4,6 +4,7 @@ Tests for Hardware Detection Module
 Issue: #253
 """
 
+import subprocess
 from pathlib import Path
 from unittest.mock import MagicMock, mock_open, patch
 

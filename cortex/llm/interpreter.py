@@ -16,7 +16,7 @@ class APIProvider(Enum):
 
 class CommandInterpreter:
     """Interprets natural language commands into executable shell commands using LLM APIs.
-    
+
     Supports multiple providers (OpenAI, Claude, Ollama) with optional semantic caching
     and offline mode for cached responses.
     """
@@ -30,7 +30,7 @@ class CommandInterpreter:
         cache: Optional["SemanticCache"] = None,
     ):
         """Initialize the command interpreter.
-        
+
         Args:
             api_key: API key for the LLM provider
             provider: Provider name ("openai", "claude", or "ollama")
@@ -207,14 +207,14 @@ Example response: {"commands": ["sudo apt update", "sudo apt install -y docker.i
 
     def parse(self, user_input: str, validate: bool = True) -> list[str]:
         """Parse natural language input into shell commands.
-        
+
         Args:
             user_input: Natural language description of desired action
             validate: If True, validate commands for dangerous patterns
-            
+
         Returns:
             List of shell commands to execute
-            
+
         Raises:
             ValueError: If input is empty
             RuntimeError: If offline mode is enabled and no cached response exists

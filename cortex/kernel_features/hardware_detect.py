@@ -7,7 +7,7 @@ for model selection and optimization.
 
 Usage:
     from cortex.kernel_features.hardware_detect import detect_accelerators
-    
+
     hardware = detect_accelerators()
     print(hardware.to_json())
 """
@@ -449,7 +449,7 @@ def generate_optimization_hints(profile: HardwareProfile) -> list[str]:
 def detect_accelerators() -> HardwareProfile:
     """
     Main detection function - detects all AI accelerators and builds hardware profile.
-    
+
     Returns:
         HardwareProfile with detected hardware and recommendations
     """

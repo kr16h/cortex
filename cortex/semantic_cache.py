@@ -17,7 +17,7 @@ from pathlib import Path
 @dataclass(frozen=True)
 class CacheStats:
     """Statistics for cache performance.
-    
+
     Attributes:
         hits: Number of cache hits
         misses: Number of cache misses
@@ -40,7 +40,7 @@ class CacheStats:
 
 class SemanticCache:
     """Semantic cache for LLM command responses.
-    
+
     Uses SQLite for persistence, simple embedding for semantic matching,
     and LRU eviction policy for size management.
     """
@@ -51,7 +51,7 @@ class SemanticCache:
         similarity_threshold: float | None = None,
     ):
         """Initialize semantic cache.
-        
+
         Args:
             db_path: Path to SQLite database file
             max_entries: Maximum cache entries before LRU eviction (default: 500)
@@ -200,16 +200,16 @@ class SemanticCache:
         candidate_limit: int = 200,
     ) -> list[str] | None:
         """Retrieve cached commands for a prompt.
-        
+
         First tries exact match, then falls back to semantic similarity search.
-        
+
         Args:
             prompt: User's natural language request
             provider: LLM provider name
             model: Model name
             system_prompt: System prompt used for generation
             candidate_limit: Max candidates to check for similarity
-            
+
         Returns:
             List of commands if found, None otherwise
         """
@@ -292,7 +292,7 @@ class SemanticCache:
         commands: list[str],
     ) -> None:
         """Store commands in cache for future retrieval.
-        
+
         Args:
             prompt: User's natural language request
             provider: LLM provider name
@@ -361,7 +361,7 @@ class SemanticCache:
 
     def stats(self) -> CacheStats:
         """Get current cache statistics.
-        
+
         Returns:
             CacheStats object with hits, misses, and computed metrics
         """

@@ -109,7 +109,7 @@ class InstallationHistory:
 
             # Create index on timestamp
             cursor.execute("""
-                CREATE INDEX IF NOT EXISTS idx_timestamp 
+                CREATE INDEX IF NOT EXISTS idx_timestamp
                 ON installations(timestamp)
             """)
 
@@ -240,7 +240,7 @@ class InstallationHistory:
                             if pkg:
                                 packages.add(pkg)
 
-        return sorted(list(packages))
+        return sorted(packages)
 
     def _generate_id(self, packages: list[str]) -> str:
         """Generate unique ID for installation"""
@@ -338,7 +338,7 @@ class InstallationHistory:
 
             # Update record
             cursor.execute("""
-                UPDATE installations 
+                UPDATE installations
                 SET status = ?,
                     after_snapshot = ?,
                     error_message = ?,
@@ -372,15 +372,15 @@ class InstallationHistory:
 
             if status_filter:
                 cursor.execute("""
-                    SELECT * FROM installations 
+                    SELECT * FROM installations
                     WHERE status = ?
-                    ORDER BY timestamp DESC 
+                    ORDER BY timestamp DESC
                     LIMIT ?
                 """, (status_filter.value, limit))
             else:
                 cursor.execute("""
-                    SELECT * FROM installations 
-                    ORDER BY timestamp DESC 
+                    SELECT * FROM installations
+                    ORDER BY timestamp DESC
                     LIMIT ?
                 """, (limit,))
 

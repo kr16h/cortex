@@ -217,7 +217,7 @@ class DependencyResolver:
     ) -> DependencyGraph:
         """
         Resolve all dependencies for a package
-        
+
         Args:
             package_name: Package to resolve dependencies for
             recursive: Whether to resolve transitive dependencies

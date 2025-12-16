@@ -91,7 +91,7 @@ class PreferencesManager:
     def __init__(self, config_path: Path | None = None):
         """
         Initialize preferences manager
-        
+
         Args:
             config_path: Custom path for config file (default: ~/.config/cortex/preferences.yaml)
         """
@@ -181,11 +181,11 @@ class PreferencesManager:
     def get(self, key: str, default: Any = None) -> Any:
         """
         Get preference value by dot notation key
-        
+
         Args:
             key: Dot notation key (e.g., 'ai.model', 'confirmations.before_install')
             default: Default value if key not found
-        
+
         Returns:
             Preference value or default
         """
@@ -202,7 +202,7 @@ class PreferencesManager:
     def set(self, key: str, value: Any) -> None:
         """
         Set preference value by dot notation key
-        
+
         Args:
             key: Dot notation key (e.g., 'ai.model')
             value: Value to set
@@ -243,7 +243,7 @@ class PreferencesManager:
     def validate(self) -> list[str]:
         """
         Validate current preferences
-        
+
         Returns:
             List of validation error messages (empty if valid)
         """

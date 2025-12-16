@@ -100,7 +100,7 @@ class ProgressStage:
 class ProgressTracker:
     """
     Multi-stage progress tracker with time estimation and notifications.
-    
+
     Features:
     - Rich terminal progress bars
     - Time estimation based on throughput
@@ -118,7 +118,7 @@ class ProgressTracker:
                  console: Any | None = None):
         """
         Initialize progress tracker.
-        
+
         Args:
             operation_name: Name of the operation (e.g., "Installing PostgreSQL")
             enable_notifications: Enable desktop notifications
@@ -155,11 +155,11 @@ class ProgressTracker:
     def add_stage(self, name: str, total_bytes: int | None = None) -> int:
         """
         Add a stage to the operation.
-        
+
         Args:
             name: Name of the stage
             total_bytes: Total bytes for this stage (for download/install tracking)
-            
+
         Returns:
             Index of the added stage
         """
@@ -178,7 +178,7 @@ class ProgressTracker:
     def start_stage(self, stage_index: int):
         """
         Start a specific stage.
-        
+
         Args:
             stage_index: Index of the stage to start
         """
@@ -192,7 +192,7 @@ class ProgressTracker:
                              processed_bytes: int = None):
         """
         Update progress for a specific stage.
-        
+
         Args:
             stage_index: Index of the stage
             progress: Progress value (0.0 to 1.0)
@@ -212,7 +212,7 @@ class ProgressTracker:
     def complete_stage(self, stage_index: int, error: str | None = None):
         """
         Mark a stage as complete or failed.
-        
+
         Args:
             stage_index: Index of the stage
             error: Error message if stage failed
@@ -231,7 +231,7 @@ class ProgressTracker:
     def estimate_remaining_time(self) -> float | None:
         """
         Estimate remaining time based on completed stages and current progress.
-        
+
         Returns:
             Estimated seconds remaining, or None if cannot estimate
         """
@@ -292,7 +292,7 @@ class ProgressTracker:
     def get_overall_progress(self) -> float:
         """
         Calculate overall progress across all stages.
-        
+
         Returns:
             Overall progress (0.0 to 1.0)
         """
@@ -305,7 +305,7 @@ class ProgressTracker:
     def render_text_progress(self) -> str:
         """
         Render progress as plain text (fallback when rich is not available).
-        
+
         Returns:
             Plain text progress representation
         """
@@ -323,7 +323,7 @@ class ProgressTracker:
         lines.append("")
 
         # Stages
-        for i, stage in enumerate(self.stages):
+        for _i, stage in enumerate(self.stages):
             if stage.status == StageStatus.COMPLETED:
                 icon = "[✓]"
                 info = f"({stage.format_elapsed()})"
@@ -347,7 +347,7 @@ class ProgressTracker:
     def render_rich_progress(self) -> Table:
         """
         Render progress using rich formatting.
-        
+
         Returns:
             Rich table with progress information
         """
@@ -416,7 +416,7 @@ class ProgressTracker:
     def complete(self, success: bool = True, message: str | None = None):
         """
         Mark operation as complete.
-        
+
         Args:
             success: Whether operation completed successfully
             message: Optional completion message
@@ -468,7 +468,7 @@ class ProgressTracker:
     def cancel(self, message: str = "Cancelled by user"):
         """
         Cancel the operation.
-        
+
         Args:
             message: Cancellation message
         """
@@ -506,7 +506,7 @@ class ProgressTracker:
     def _send_notification(self, title: str, message: str, timeout: int = 5):
         """
         Send desktop notification.
-        
+
         Args:
             title: Notification title
             message: Notification message
@@ -542,7 +542,7 @@ class ProgressTracker:
     def setup_cancellation_handler(self, callback: Callable | None = None):
         """
         Setup signal handler for graceful cancellation (Ctrl+C).
-        
+
         Args:
             callback: Optional callback to run on cancellation
         """
@@ -632,12 +632,12 @@ async def run_with_progress(tracker: ProgressTracker,
                             *args, **kwargs) -> Any:
     """
     Run an async operation with progress tracking.
-    
+
     Args:
         tracker: ProgressTracker instance
         operation_func: Async function to execute
         *args, **kwargs: Arguments to pass to operation_func
-        
+
     Returns:
         Result from operation_func
     """

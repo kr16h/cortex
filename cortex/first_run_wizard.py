@@ -94,7 +94,7 @@ class StepResult:
 class FirstRunWizard:
     """
     Interactive first-run wizard for Cortex Linux.
-    
+
     Guides users through:
     1. Welcome and introduction
     2. API key setup
@@ -160,7 +160,7 @@ class FirstRunWizard:
     def run(self) -> bool:
         """
         Run the complete wizard.
-        
+
         Returns:
             True if wizard completed successfully
         """
@@ -575,7 +575,7 @@ Cortex uses AI to understand your commands. You can use:
 _cortex_completion() {
     local cur="${COMP_WORDS[COMP_CWORD]}"
     local commands="install remove update search info undo history help"
-    
+
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=($(compgen -W "$commands" -- "$cur"))
     fi
@@ -735,12 +735,12 @@ Cortex is ready to use! Here are some things to try:
     def _print_banner(self):
         """Print the Cortex banner."""
         banner = """
-   ____           _            
+   ____           _
   / ___|___  _ __| |_ _____  __
  | |   / _ \\| '__| __/ _ \\ \\/ /
- | |__| (_) | |  | ||  __/>  < 
+ | |__| (_) | |  | ||  __/>  <
   \\____\\___/|_|   \\__\\___/_/\\_\\
-                               
+
         Linux that understands you.
 """
         print(banner)

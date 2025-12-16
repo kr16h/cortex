@@ -157,7 +157,7 @@ class FallbackProgress:
 class ProgressIndicator:
     """
     Main progress indicator class supporting multiple display modes.
-    
+
     Automatically uses Rich library if available, falls back to simple
     terminal output otherwise.
     """
@@ -202,7 +202,7 @@ class ProgressIndicator:
     ):
         """
         Context manager for tracking an operation with progress.
-        
+
         Usage:
             with progress.operation("Installing Docker", OperationType.INSTALL) as op:
                 op.update("Downloading...")
@@ -241,7 +241,7 @@ class ProgressIndicator:
     def spinner(self, message: str):
         """
         Simple spinner for indeterminate operations.
-        
+
         Usage:
             with progress.spinner("Thinking..."):
                 result = call_llm()
@@ -265,7 +265,7 @@ class ProgressIndicator:
     ) -> Iterator[Any]:
         """
         Iterate over items with a progress bar.
-        
+
         Usage:
             for package in progress.progress_bar(packages, "Installing"):
                 install(package)
@@ -305,7 +305,7 @@ class ProgressIndicator:
     ) -> "DownloadTracker":
         """
         Create a download progress tracker.
-        
+
         Usage:
             tracker = progress.download_progress(file_size, "Downloading package")
             for chunk in download():
@@ -321,18 +321,18 @@ class ProgressIndicator:
     ) -> "MultiStepTracker":
         """
         Create a multi-step operation tracker.
-        
+
         Usage:
             tracker = progress.multi_step([
                 {"name": "Download", "description": "Downloading package"},
                 {"name": "Install", "description": "Installing files"},
                 {"name": "Configure", "description": "Configuring service"},
             ])
-            
+
             tracker.start_step(0)
             # do download
             tracker.complete_step(0)
-            
+
             tracker.start_step(1)
             # do install
             tracker.complete_step(1)
@@ -573,7 +573,7 @@ class MultiStepTracker:
         table.add_column("Step", width=20)
         table.add_column("Description")
 
-        for i, step in enumerate(self.steps):
+        for _i, step in enumerate(self.steps):
             if step.status == "completed":
                 icon = "[green]✓[/green]"
             elif step.status == "running":
@@ -698,7 +698,7 @@ if __name__ == "__main__":
     # Demo 3: Progress bar
     print("\n3. Progress bar:")
     packages = ["nginx", "redis", "postgresql", "nodejs", "python3"]
-    for pkg in progress.progress_bar(packages, "Installing packages"):
+    for _pkg in progress.progress_bar(packages, "Installing packages"):
         time.sleep(0.5)
 
     # Demo 4: Multi-step tracker

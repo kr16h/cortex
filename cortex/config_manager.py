@@ -19,7 +19,7 @@ import yaml
 class ConfigManager:
     """
     Manages configuration export/import for Cortex Linux.
-    
+
     Features:
     - Export current system state to YAML (packages, configs, preferences)
     - Import configuration from YAML file
@@ -44,10 +44,10 @@ class ConfigManager:
     def __init__(self, sandbox_executor=None):
         """
         Initialize ConfigManager.
-        
+
         Args:
             sandbox_executor: Optional SandboxExecutor instance for safe command execution
-        
+
         Raises:
             PermissionError: If directory ownership or permissions cannot be secured
         """
@@ -62,13 +62,13 @@ class ConfigManager:
     def _enforce_directory_security(self, directory: Path) -> None:
         """
         Enforce ownership and permission security on a directory.
-        
+
         Ensures the directory is owned by the current user and has mode 0o700
         (read/write/execute for owner only).
-        
+
         Args:
             directory: Path to the directory to secure
-        
+
         Raises:
             PermissionError: If ownership or permissions cannot be secured
         """
@@ -111,7 +111,7 @@ class ConfigManager:
     def detect_apt_packages(self) -> list[dict[str, Any]]:
         """
         Detect installed APT packages.
-        
+
         Returns:
             List of package dictionaries with name, version, and source
         """
@@ -144,7 +144,7 @@ class ConfigManager:
     def detect_pip_packages(self) -> list[dict[str, Any]]:
         """
         Detect installed PIP packages.
-        
+
         Returns:
             List of package dictionaries with name, version, and source
         """
@@ -177,7 +177,7 @@ class ConfigManager:
     def detect_npm_packages(self) -> list[dict[str, Any]]:
         """
         Detect globally installed NPM packages.
-        
+
         Returns:
             List of package dictionaries with name, version, and source
         """
@@ -211,11 +211,11 @@ class ConfigManager:
     def detect_installed_packages(self, sources: list[str] | None = None) -> list[dict[str, Any]]:
         """
         Detect all installed packages from specified sources.
-        
+
         Args:
             sources: List of package sources to detect ['apt', 'pip', 'npm']
                      If None, detects from all sources
-        
+
         Returns:
             List of package dictionaries sorted by name
         """
@@ -247,7 +247,7 @@ class ConfigManager:
     def _detect_os_version(self) -> str:
         """
         Detect OS version from /etc/os-release.
-        
+
         Returns:
             OS version string (e.g., 'ubuntu-24.04')
         """
@@ -275,7 +275,7 @@ class ConfigManager:
     def _load_preferences(self) -> dict[str, Any]:
         """
         Load user preferences from ~/.cortex/preferences.yaml.
-        
+
         Returns:
             Dictionary of preferences
         """
@@ -291,7 +291,7 @@ class ConfigManager:
     def _save_preferences(self, preferences: dict[str, Any]) -> None:
         """
         Save user preferences to ~/.cortex/preferences.yaml.
-        
+
         Args:
             preferences: Dictionary of preferences to save
         """
@@ -308,14 +308,14 @@ class ConfigManager:
                             package_sources: list[str] | None = None) -> str:
         """
         Export current system configuration to YAML file.
-        
+
         Args:
             output_path: Path to save YAML configuration file
             include_hardware: Include hardware profile from HardwareProfiler
             include_preferences: Include user preferences
             package_sources: List of package sources to export ['apt', 'pip', 'npm']
                            If None, exports all
-        
+
         Returns:
             Success message with file path
         """
@@ -367,10 +367,10 @@ class ConfigManager:
     def validate_compatibility(self, config: dict[str, Any]) -> tuple[bool, str | None]:
         """
         Validate if configuration can be imported on this system.
-        
+
         Args:
             config: Configuration dictionary from YAML
-        
+
         Returns:
             Tuple of (is_compatible, reason_if_not)
         """
@@ -417,11 +417,11 @@ class ConfigManager:
     def _categorize_package(self, pkg: dict[str, Any], current_pkg_map: dict[tuple[str, str], str]) -> tuple[str, dict[str, Any] | None]:
         """
         Categorize a package as install, upgrade, downgrade, or already installed.
-        
+
         Args:
             pkg: Package dictionary from config
             current_pkg_map: Map of (name, source) to current version
-        
+
         Returns:
             Tuple of (category, package_data) where category is one of:
             'install', 'upgrade', 'downgrade', 'already_installed', 'skip'
@@ -457,10 +457,10 @@ class ConfigManager:
     def diff_configuration(self, config: dict[str, Any]) -> dict[str, Any]:
         """
         Compare current system state with configuration file.
-        
+
         Args:
             config: Configuration dictionary from YAML
-        
+
         Returns:
             Dictionary with differences
         """
@@ -518,11 +518,11 @@ class ConfigManager:
     def _compare_versions(self, version1: str, version2: str) -> int:
         """
         Compare two version strings using packaging library for robustness.
-        
+
         Args:
             version1: First version string
             version2: Second version string
-        
+
         Returns:
             -1 if version1 < version2, 0 if equal, 1 if version1 > version2
         """
@@ -542,25 +542,25 @@ class ConfigManager:
     def _simple_version_compare(self, version1: str, version2: str) -> int:
         """
         Fallback version comparison using numeric extraction.
-        
+
         Used when the packaging library is unavailable or fails to parse
         version strings. Extracts numeric components and compares them
         sequentially, padding shorter versions with zeros.
-        
+
         This method provides a basic version comparison by extracting all
         numeric parts from the version strings and comparing them position
         by position. It handles simple version schemes well but may not
         correctly handle complex pre-release tags or build metadata.
-        
+
         Args:
             version1: First version string (e.g., "1.2.3", "2.0.0-rc1")
             version2: Second version string to compare against
-        
+
         Returns:
             int: -1 if version1 < version2
                  0 if versions are equal
                  1 if version1 > version2
-        
+
         Example:
             >>> _simple_version_compare("1.2.3", "1.2.4")
             -1
@@ -568,7 +568,7 @@ class ConfigManager:
             1
             >>> _simple_version_compare("1.0", "1.0.0")
             0
-        
+
         Note:
             This is a simplified comparison that only considers numeric parts.
             Complex version schemes (pre-release tags, build metadata) may not
@@ -607,14 +607,14 @@ class ConfigManager:
                             force: bool = False) -> dict[str, Any]:
         """
         Import configuration from YAML file.
-        
+
         Args:
             config_path: Path to YAML configuration file
             dry_run: If True, preview changes without applying
             selective: Import only specified sections ['packages', 'preferences']
                       If None, imports all
             force: Skip compatibility checks
-        
+
         Returns:
             Summary dictionary with results
         """
@@ -668,27 +668,27 @@ class ConfigManager:
     def _import_packages(self, config: dict[str, Any], summary: dict[str, Any]) -> None:
         """
         Import packages from configuration and update system state.
-        
+
         This method processes package installations by first computing the
         difference between the current system state and the target configuration
         using diff_configuration(). It then attempts to install, upgrade, or
         downgrade packages as needed.
-        
+
         The method continues processing all packages even if individual packages
         fail to install, ensuring maximum success. Failed installations are
         tracked in the summary for user review.
-        
+
         Args:
             config: Configuration dictionary containing package specifications
                    Expected to have 'packages' key with list of package dicts
             summary: Summary dictionary to update with results. Modified in-place
                     with keys: 'installed', 'upgraded', 'failed'
-        
+
         Updates:
             summary['installed']: List of successfully installed package names
             summary['upgraded']: List of successfully upgraded package names
             summary['failed']: List of failed package names (with error details)
-        
+
         Note:
             Uses _install_package() internally for actual package installation.
             Each package is categorized based on diff results (install vs upgrade).
@@ -719,25 +719,25 @@ class ConfigManager:
     def _import_preferences(self, config: dict[str, Any], summary: dict[str, Any]) -> None:
         """
         Import user preferences from configuration and save to disk.
-        
+
         Extracts preferences from the configuration dictionary and saves them
         to the user's Cortex preferences file at ~/.cortex/preferences.yaml.
         If preferences are empty or missing, no action is taken.
-        
+
         This method handles the persistence of user-configurable settings such
         as confirmation levels, verbosity settings, and other behavioral
         preferences for the Cortex system.
-        
+
         Args:
             config: Configuration dictionary containing optional 'preferences' key
                    with user preference settings as a dictionary
             summary: Summary dictionary to update with results. Modified in-place
                     with keys: 'preferences_updated', 'failed'
-        
+
         Updates:
             summary['preferences_updated']: Set to True on successful save
             summary['failed']: Appends error message if save fails
-        
+
         Note:
             Uses _save_preferences() internally to persist to disk.
             Errors during save are caught and added to failed list with details.
@@ -754,15 +754,15 @@ class ConfigManager:
     def _validate_package_identifier(self, identifier: str, allow_slash: bool = False) -> bool:
         """
         Validate package name or version contains only safe characters.
-        
+
         Prevents command injection by ensuring package identifiers only contain
         alphanumeric characters and common package naming characters.
         Supports NPM scoped packages (@scope/package) when allow_slash=True.
-        
+
         Args:
             identifier: Package name or version string to validate
             allow_slash: Whether to allow a single slash (for NPM scoped packages)
-        
+
         Returns:
             bool: True if identifier is safe, False otherwise
         """
@@ -783,12 +783,12 @@ class ConfigManager:
     def _install_with_sandbox(self, name: str, version: str | None, source: str) -> bool:
         """
         Install package using sandbox executor.
-        
+
         Args:
             name: Package name
             version: Package version (optional)
             source: Package source (apt/pip/npm)
-        
+
         Returns:
             True if successful, False otherwise
         """
@@ -810,12 +810,12 @@ class ConfigManager:
     def _install_direct(self, name: str, version: str | None, source: str) -> bool:
         """
         Install package directly using subprocess (not recommended in production).
-        
+
         Args:
             name: Package name
             version: Package version (optional)
             source: Package source (apt/pip/npm)
-        
+
         Returns:
             True if successful, False otherwise
         """
@@ -837,10 +837,10 @@ class ConfigManager:
     def _install_package(self, pkg: dict[str, Any]) -> bool:
         """
         Install a single package using appropriate package manager.
-        
+
         Args:
             pkg: Package dictionary with name, version, source
-        
+
         Returns:
             True if successful, False otherwise
         """

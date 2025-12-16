@@ -7,6 +7,8 @@ recommendations and system configuration.
 Issue: #253
 """
 
+import builtins
+import contextlib
 import json
 import logging
 import os
@@ -177,7 +179,7 @@ class SystemInfo:
 class HardwareDetector:
     """
     Fast, comprehensive hardware detection for Cortex Linux.
-    
+
     Detects:
     - CPU (vendor, model, cores, features)
     - GPU (NVIDIA, AMD, Intel)
@@ -197,10 +199,10 @@ class HardwareDetector:
     def detect(self, force_refresh: bool = False) -> SystemInfo:
         """
         Detect all hardware information.
-        
+
         Args:
             force_refresh: Bypass cache and re-detect
-        
+
         Returns:
             SystemInfo with complete hardware details
         """
@@ -231,7 +233,7 @@ class HardwareDetector:
     def detect_quick(self) -> dict[str, Any]:
         """
         Quick detection of essential hardware info.
-        
+
         Returns minimal info for fast startup.
         """
         return {
@@ -307,10 +309,8 @@ class HardwareDetector:
             info.hostname = "unknown"
 
         # Kernel
-        try:
+        with contextlib.suppress(builtins.BaseException):
             info.kernel_version = os.uname().release
-        except:
-            pass
 
         # Distro
         try:
@@ -547,10 +547,8 @@ class HardwareDetector:
                 net.is_wireless = (iface_dir / "wireless").exists()
 
                 # Get MAC address
-                try:
+                with contextlib.suppress(builtins.BaseException):
                     net.mac_address = (iface_dir / "address").read_text().strip()
-                except:
-                    pass
 
                 # Get IP address
                 try:

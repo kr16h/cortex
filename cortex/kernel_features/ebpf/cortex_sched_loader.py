@@ -132,7 +132,7 @@ TRACEPOINT_PROBE(sched, sched_switch) {
     u32 prev_pid = args->prev_pid;
     u32 next_pid = args->next_pid;
     u64 now = bpf_ktime_get_ns();
-    
+
     struct metrics_t *prev = process_metrics.lookup(&prev_pid);
     if (prev) {
         prev->context_switches++;
@@ -141,12 +141,12 @@ TRACEPOINT_PROBE(sched, sched_switch) {
         }
         prev->last_update_ns = now;
     }
-    
+
     struct metrics_t *next = process_metrics.lookup(&next_pid);
     if (next) {
         next->last_update_ns = now;
     }
-    
+
     return 0;
 }
 
@@ -154,7 +154,7 @@ TRACEPOINT_PROBE(sched, sched_switch) {
 TRACEPOINT_PROBE(syscalls, sys_enter_mmap) {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     u64 len = args->len;
-    
+
     if (len > 100 * 1024 * 1024) {  // >100MB
         struct metrics_t zero = {};
         struct metrics_t *m = process_metrics.lookup_or_try_init(&pid, &zero);
@@ -172,7 +172,7 @@ TRACEPOINT_PROBE(syscalls, sys_enter_mmap) {
 TRACEPOINT_PROBE(syscalls, sys_enter_ioctl) {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
     unsigned long cmd = args->cmd;
-    
+
     // NVIDIA uses 0x46 magic
     if ((cmd >> 8) == 0x46) {
         struct metrics_t zero = {};
@@ -192,7 +192,7 @@ TRACEPOINT_PROBE(syscalls, sys_enter_ioctl) {
 // Track process exec (detect inference by name)
 TRACEPOINT_PROBE(sched, sched_process_exec) {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
-    
+
     // Check if PID is in known inference list
     u32 *known = inference_pids.lookup(&pid);
     if (known) {
@@ -200,7 +200,7 @@ TRACEPOINT_PROBE(sched, sched_process_exec) {
         struct metrics_t *m = process_metrics.lookup_or_try_init(&pid, &zero);
         if (m) {
             m->is_inference = 1;
-            
+
             // Send event to userspace
             struct event_t evt = {};
             evt.pid = pid;
@@ -414,17 +414,16 @@ Examples:
             scheduler.run_monitor(args.interval)
             scheduler.stop()
 
-    elif args.command == "json":
-        if scheduler.start():
-            time.sleep(0.5)
-            metrics = scheduler.get_process_metrics()
-            stats = scheduler.get_global_stats()
-            output = {
-                "stats": asdict(stats),
-                "processes": [asdict(m) for m in metrics if m.is_inference]
-            }
-            print(json.dumps(output, indent=2))
-            scheduler.stop()
+    elif args.command == "json" and scheduler.start():
+        time.sleep(0.5)
+        metrics = scheduler.get_process_metrics()
+        stats = scheduler.get_global_stats()
+        output = {
+            "stats": asdict(stats),
+            "processes": [asdict(m) for m in metrics if m.is_inference]
+        }
+        print(json.dumps(output, indent=2))
+        scheduler.stop()
 
 
 if __name__ == "__main__":

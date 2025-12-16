@@ -69,13 +69,13 @@ class RoutingDecision:
 class LLMRouter:
     """
     Intelligent router that selects the best LLM for each task.
-    
+
     Routing Logic:
     - User-facing tasks → Claude (better at natural language)
     - System operations → Kimi K2 (65.8% SWE-bench, beats Claude)
     - Error debugging → Kimi K2 (better at technical problem-solving)
     - Complex installs → Kimi K2 (superior agentic capabilities)
-    
+
     Includes fallback logic if primary LLM fails.
     """
 
@@ -113,7 +113,7 @@ class LLMRouter:
     ):
         """
         Initialize LLM Router.
-        
+
         Args:
             claude_api_key: Anthropic API key (defaults to ANTHROPIC_API_KEY env)
             kimi_api_key: Moonshot API key (defaults to MOONSHOT_API_KEY env)
@@ -161,11 +161,11 @@ class LLMRouter:
     ) -> RoutingDecision:
         """
         Determine which LLM should handle this task.
-        
+
         Args:
             task_type: Type of task to route
             force_provider: Override routing logic (for testing)
-            
+
         Returns:
             RoutingDecision with provider and reasoning
         """
@@ -215,7 +215,7 @@ class LLMRouter:
     ) -> LLMResponse:
         """
         Generate completion using the most appropriate LLM.
-        
+
         Args:
             messages: Chat messages in OpenAI format
             task_type: Type of task (determines routing)
@@ -223,7 +223,7 @@ class LLMRouter:
             temperature: Sampling temperature
             max_tokens: Maximum response length
             tools: Tool definitions for function calling
-            
+
         Returns:
             LLMResponse with content and metadata
         """
@@ -401,7 +401,7 @@ class LLMRouter:
     def get_stats(self) -> dict[str, Any]:
         """
         Get usage statistics.
-        
+
         Returns:
             Dictionary with request counts, tokens, costs per provider
         """
@@ -439,13 +439,13 @@ def complete_task(
 ) -> str:
     """
     Simple interface for one-off completions.
-    
+
     Args:
         prompt: User prompt
         task_type: Type of task (determines LLM routing)
         system_prompt: Optional system message
         **kwargs: Additional arguments passed to LLMRouter.complete()
-        
+
     Returns:
         String response from LLM
     """
