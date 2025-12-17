@@ -1,5 +1,5 @@
-from cortex.stack_manager import StackManager
 import cortex.stack_manager as stack_manager
+from cortex.stack_manager import StackManager
 
 
 def test_suggest_stack_ml_gpu_and_cpu(monkeypatch):

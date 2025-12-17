@@ -10,14 +10,15 @@ Usage:
 import json
 from pathlib import Path
 from typing import Any
+
 from cortex.hardware_detection import has_nvidia_gpu
+
 
 class StackManager:
     """Manages pre-built package stacks with hardware awareness"""
 
-
     def __init__(self) -> None:
-    # stacks.json is in the same directory as this file (cortex/)
+        # stacks.json is in the same directory as this file (cortex/)
         self.stacks_file = Path(__file__).parent / "stacks.json"
         self._stacks = None
 
@@ -30,10 +31,14 @@ class StackManager:
             with open(self.stacks_file) as f:
                 self._stacks = json.load(f)
             return self._stacks
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Stacks config not found at {self.stacks_file}")
-        except json.JSONDecodeError:
-            raise ValueError(f"Invalid JSON in {self.stacks_file}")
+        except FileNotFoundError as e:
+            raise FileNotFoundError(
+                f"Stacks config not found at {self.stacks_file}"
+            ) from e
+        except json.JSONDecodeError as e:
+            raise ValueError(
+                f"Invalid JSON in {self.stacks_file}"
+            ) from e
 
     def list_stacks(self) -> list[dict[str, Any]]:
         """Get all available stacks"""
@@ -42,8 +47,7 @@ class StackManager:
 
     def find_stack(self, stack_id: str) -> dict[str, Any] | None:
         """Find a stack by ID"""
-        stacks = self.list_stacks()
-        for stack in stacks:
+        for stack in self.list_stacks():
             if stack["id"] == stack_id:
                 return stack
         return None
@@ -51,16 +55,11 @@ class StackManager:
     def get_stack_packages(self, stack_id: str) -> list[str]:
         """Get package list for a stack"""
         stack = self.find_stack(stack_id)
-        if not stack:
-            return []
-        return stack.get("packages", [])
+        return stack.get("packages", []) if stack else []
 
     def suggest_stack(self, base_stack: str) -> str:
         if base_stack == "ml":
-            if has_nvidia_gpu():
-                return "ml"
-            else: 
-                return "ml-cpu"
+            return "ml" if has_nvidia_gpu() else "ml-cpu"
         return base_stack
 
     def describe_stack(self, stack_id: str) -> str:
@@ -71,6 +70,7 @@ class StackManager:
         output = f"\n📦 Stack: {stack['name']}\n"
         output += f"Description: {stack['description']}\n\n"
         output += "Packages included:\n"
+
         for idx, pkg in enumerate(stack.get("packages", []), 1):
             output += f"  {idx}. {pkg}\n"
 

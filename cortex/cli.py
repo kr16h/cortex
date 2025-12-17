@@ -1,10 +1,10 @@
 import argparse
 import logging
-from typing import Any
 import os
 import sys
 import time
 from datetime import datetime
+from typing import Any
 
 # Suppress noisy log messages in normal operation
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -27,6 +27,7 @@ from cortex.validators import (
     validate_api_key,
     validate_install_request,
 )
+
 
 class CortexCLI:
     def __init__(self, verbose: bool = False):
