@@ -2,8 +2,10 @@
 Dependency Check Module for Cortex Linux
 Verifies all required dependencies are installed before the main application runs.
 """
+
 import sys
 from typing import NamedTuple
+
 
 class DependencyStatus(NamedTuple):
     name: str
