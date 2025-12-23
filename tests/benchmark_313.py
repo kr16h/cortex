@@ -14,7 +14,7 @@ print(f"=== Cortex Python {sys.version_info.major}.{sys.version_info.minor} Benc
 
 yaml_ops = """
 import yaml
-data = {'test': i for i in range(100)}
+data = {f'test_{i}': i for i in range(100)}
 yaml.dump(data)
 """
 time_yaml = timeit.timeit(yaml_ops, number=1000)
