@@ -1,5 +1,5 @@
 """Cortex Python 3.13 Benchmark - Issue #272
-TO run benchmarks:
+To run benchmarks:
 # Install PyYAML (only dep needed)
 pip install pyyaml
 # Test both versions
