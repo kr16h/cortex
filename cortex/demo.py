@@ -113,9 +113,12 @@ Status        Running on port 80"""
     )
 
     section("Demo Complete!")
+    
+    msg = "[green]Your system is AI-ready and Cortex is operational![/green]"
 
-    print()
-    success("Your system is AI-ready and Cortex is operational")
+    console.print(
+        Panel(msg, border_style="green", padding=(1, 1), expand=False, width=60)
+    )
     print()
     print("  Next steps:")
     info("  • cortex install <software>   Install any package")
