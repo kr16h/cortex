@@ -12,12 +12,12 @@ import timeit
 
 print(f"=== Cortex Python {sys.version_info.major}.{sys.version_info.minor} Benchmark ===\n")
 
-yaml_ops = """
+yaml_setup = """
 import yaml
 data = {f'test_{i}': i for i in range(100)}
-yaml.dump(data)
 """
-time_yaml = timeit.timeit(yaml_ops, number=1000)
+yaml_stmt = "yaml.dump(data)"
+time_yaml = timeit.timeit(stmt=yaml_stmt, setup=yaml_setup, number=1000)
 print(f"✓ YAML Dump (1000x): {time_yaml:.4f}s")
 
 # Dict operations (common Cortex patterns)
